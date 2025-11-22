@@ -314,6 +314,30 @@
             margin: 0;
         }
 
+        .link-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 12px;
+            margin-top: 10px;
+            border-radius: 999px;
+            background: rgba(132, 220, 198, 0.16);
+            color: #1f6b5c;
+            font-weight: 700;
+            font-size: 0.85rem;
+            border: 1px solid rgba(31, 107, 92, 0.2);
+            transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+        }
+        .link-chip:hover {
+            transform: translateY(-2px);
+            background: rgba(132, 220, 198, 0.26);
+            box-shadow: 0 8px 18px rgba(31, 107, 92, 0.16);
+        }
+        .link-chip svg {
+            width: 16px;
+            height: 16px;
+        }
+
         /* --- プロモーション枠 (自然に) --- */
         .promo-card {
             border: 2px solid var(--cnp-green);
@@ -450,6 +474,13 @@
                     <div class="item-body">
                         <h3 class="item-title">さわるTECH（新感覚サブスク玩具サービス）</h3>
                         <p class="item-text">日本e-Learning大賞 & AES Global Award ダブル最優秀賞受賞！もっと多くの子どもたちに“触れる学びの面白さ”を届けるため、認知拡大に挑戦中。</p>
+                        <a class="link-chip" href="https://sawarutech.com/" target="_blank" rel="noopener">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M9 15l6-6M11 9h6v6" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M12 5H7a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-5" stroke-linecap="round"/>
+                            </svg>
+                            公式サイトへ
+                        </a>
                     </div>
                 </div>
                 <div class="item-card">
@@ -460,6 +491,13 @@
                     <div class="item-body">
                         <h3 class="item-title">「CNP（クリプトニンジャパートナーズ）」</h3>
                         <p class="item-text">CNPの世界観とコミュニティの力を、もっと多くの人へ。“機会・役割・仲間を自分でつくれる”文化を広げるための発信と企画に挑戦中。</p>
+                        <a class="link-chip" href="https://www.cryptoninja-partners.xyz/" target="_blank" rel="noopener">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M9 15l6-6M11 9h6v6" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M12 5H7a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-5" stroke-linecap="round"/>
+                            </svg>
+                            公式サイトへ
+                        </a>
                     </div>
                 </div>
             </div>
