@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Challenge List | なおなお</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Zen+Maru+Gothic:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- デザイン変数 --- */
+        :root {
+            --bg-color: #FFFEF5; /* 背景：やわらかいクリーム色 */
+            --primary-color: #FCEEA7; /* チャレンジャーズ風の元気なイエロー */
+            --accent-color: #FFC857; /* 濃いイエロー（強調用） */
+            --cnp-green: #84DCC6; /* 差し色のミントグリーン */
+            --text-main: #4A4A4A; /* 文字：読みやすいダークグレー */
+            --text-sub: #888888; /* 補足文字 */
+            --card-shadow: 0 8px 20px rgba(230, 200, 100, 0.15); /* ふんわりした影 */
+        }
+
+        /* --- 基本設定 --- */
+        body {
+            font-family: 'Zen Maru Gothic', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            margin: 0;
+            padding: 0;
+            line-height: 1.8;
+            /* 背景にうっすら方眼紙のような模様を入れてノート感を演出 */
+            background-image: radial-gradient(#E8E6D9 1px, transparent 1px);
+            background-size: 24px 24px;
+        }
+
+        * { box-sizing: border-box; }
+        
+        a { text-decoration: none; color: inherit; transition: all 0.3s ease; }
+        img { width: 100%; height: auto; display: block; object-fit: cover; }
+
+        .container {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* --- ヘッダー --- */
+        header {
+            text-align: center;
+            padding: 80px 20px 40px;
+            background: linear-gradient(to bottom, #fff 0%, rgba(255,255,255,0.8) 100%);
+            border-bottom: 1px solid rgba(0,0,0,0.03);
+        }
+
+        .site-logo {
+            font-size: 2.8rem;
+            font-weight: 700;
+            margin: 0 0 10px;
+            letter-spacing: 0.05em;
+            color: var(--text-main);
+        }
+        
+        .site-logo span { color: var(--accent-color); }
+
+        .sub-title {
+            font-size: 0.9rem;
+            color: var(--cnp-green);
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            display: block;
+            margin-bottom: 20px;
+        }
+
+        .lead-text {
+            font-size: 1rem;
+            max-width: 640px;
+            margin: 0 auto;
+            font-weight: 500;
+            color: #555;
+        }
+
+        /* --- 言葉のエリア (Quote Section) --- */
+        .quote-section {
+            margin: 40px auto 60px;
+            max-width: 700px;
+            position: relative;
+        }
+
+        .quote-card {
+            background: #fff;
+            padding: 40px;
+            text-align: center;
+            border-radius: 4px; /* 少し角ばらせて付箋っぽく */
+            box-shadow: 0 4px 0 var(--primary-color); /* 下にイエローのライン */
+            position: relative;
+        }
+
+        /* 引用符の装飾 */
+        .quote-card::before {
+            content: '"';
+            font-family: serif;
+            font-size: 6rem;
+            color: var(--primary-color);
+            opacity: 0.5;
+            position: absolute;
+            top: -20px;
+            left: 20px;
+            line-height: 1;
+        }
+
+        .quote-text {
+            font-size: 1.4rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+            font-family: "Noto Sans JP", sans-serif; /* 強い言葉はゴシックで */
+            color: #333;
+        }
+
+        .quote-author {
+            font-size: 0.9rem;
+            color: var(--text-sub);
+            display: block;
+            text-align: right;
+        }
+
+        /* --- セクション見出し --- */
+        .section-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .section-title {
+            font-size: 1.6rem;
+            margin: 0 0 10px;
+            display: inline-block;
+            background: linear-gradient(transparent 70%, var(--primary-color) 70%);
+            padding: 0 10px;
+        }
+
+        .section-sub {
+            font-size: 0.85rem;
+            color: var(--text-sub);
+            letter-spacing: 0.05em;
+        }
+
+        /* --- 今のチャレンジ (Magazine Style) --- */
+        .now-challenging {
+            background: #fff;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: var(--card-shadow);
+            margin-bottom: 80px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        /* 装飾：右上に「NOW」バッジ */
+        .now-challenging::after {
+            content: 'NOW';
+            position: absolute;
+            top: 20px;
+            right: -30px;
+            background: var(--accent-color);
+            color: #fff;
+            padding: 5px 40px;
+            transform: rotate(45deg);
+            font-weight: bold;
+            font-size: 0.8rem;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 32px;
+            align-items: stretch;
+        }
+        .hero-grid + .hero-grid { margin-top: 36px; }
+
+        .hero-img-wrap {
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .hero-img-wrap.banner {
+            aspect-ratio: 4 / 3;
+            min-height: 260px;
+        }
+        .hero-img-wrap.banner img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .hero-img-wrap.logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #fff;
+            padding: 4px;
+            aspect-ratio: 4 / 3;
+            min-height: 260px;
+            overflow: hidden;
+        }
+        .logo-img {
+            width: 100%;
+            height: 100%;
+            max-width: none;
+            max-height: none;
+            object-fit: contain;
+            object-position: center;
+            transform: scale(1.02);
+            transform-origin: center;
+        }
+
+        .hero-content h3 {
+            font-size: 1.5rem;
+            margin: 0 0 15px;
+            line-height: 1.4;
+        }
+
+        .hero-content p {
+            font-size: 1rem;
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        .btn-link {
+            display: inline-block;
+            background-color: var(--text-main);
+            color: #fff;
+            padding: 10px 24px;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            font-weight: bold;
+        }
+        .btn-link:hover {
+            background-color: var(--accent-color);
+            transform: translateY(-2px);
+        }
+
+        /* --- リコメンドグリッド (Simple & Clean) --- */
+        .grid-wrapper {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+
+        .item-card {
+            background: #fff;
+            border-radius: 16px;
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .item-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--card-shadow);
+        }
+
+        .item-img {
+            aspect-ratio: 4 / 3;
+            background-color: #f4f4f4;
+            position: relative;
+            overflow: hidden;
+        }
+        .item-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+        .img-placeholder {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #f7f3e6, #ece6d8);
+            color: #6b6259;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            font-size: 1rem;
+        }
+        
+        .category-tag {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: rgba(255,255,255,0.9);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            color: var(--text-main);
+        }
+
+        .item-body {
+            padding: 20px;
+        }
+
+        .item-title {
+            font-size: 1.1rem;
+            font-weight: bold;
+            margin: 0 0 8px;
+            line-height: 1.4;
+        }
+
+        .item-text {
+            font-size: 0.85rem;
+            color: #777;
+            margin: 0;
+        }
+
+        /* --- プロモーション枠 (自然に) --- */
+        .promo-card {
+            border: 2px solid var(--cnp-green);
+            background-color: #F0FAF7;
+        }
+        .promo-card .item-title { color: #2C7A66; }
+
+        /* --- CTA --- */
+        .cta-block {
+            margin: 70px 0 0;
+            background: linear-gradient(135deg, rgba(252, 238, 167, 0.55), rgba(132, 220, 198, 0.32));
+            padding: 28px;
+            border-radius: 18px;
+            box-shadow: 0 12px 28px rgba(230, 200, 100, 0.18);
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            flex-wrap: wrap;
+        }
+        .cta-block h3 { margin: 0 0 6px; }
+        .cta-block p { margin: 0; color: #5c5c5c; }
+        .cta-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-left: auto; }
+        .cta-btn {
+            display: inline-block;
+            padding: 12px 20px;
+            border-radius: 999px;
+            font-weight: 700;
+            border: 2px solid rgba(0,0,0,0.06);
+            background: #fff;
+            color: var(--text-main);
+            box-shadow: var(--card-shadow);
+        }
+        .cta-btn.primary {
+            background: var(--accent-color);
+            color: #5a4000;
+            border-color: transparent;
+        }
+        .cta-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 22px rgba(81,70,61,0.14); }
+
+        /* --- フッター --- */
+        footer {
+            text-align: center;
+            padding: 60px 20px;
+            background: #fff;
+            border-top: 1px dashed #ddd;
+            font-size: 0.9rem;
+        }
+        
+        .footer-nav {
+            margin-bottom: 20px;
+        }
+        .footer-nav a { margin: 0 12px; color: var(--text-main); font-weight: 500; }
+        .footer-nav a:hover { color: var(--accent-color); }
+
+        /* --- スマホ対応 --- */
+        @media (max-width: 768px) {
+            .site-logo { font-size: 2rem; }
+            .quote-text { font-size: 1.2rem; }
+            .hero-grid { grid-template-columns: 1fr; gap: 20px; }
+            .now-challenging { padding: 25px; }
+            .hero-img-wrap { height: 200px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header id="top">
+        <div class="container">
+            <span class="sub-title">Challenge List</span>
+            <h1 class="site-logo">Challenge<span>.</span>List</h1>
+            <div class="lead-text">
+                その日の気分より、ほんの少しだけ勇気のいる選択を。<br>
+                なおなおの生きる原動力、チャレンジがいっぱい詰まった場所です。
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+
+        <section class="quote-section">
+            <div class="quote-card">
+                <p class="quote-text">
+                    「失敗などない。<br>あるのは、前進するためのフィードバックだけだ」
+                </p>
+                <span class="quote-author">Today's Insight</span>
+            </div>
+        </section>
+
+        <section>
+            <div class="section-header">
+                <h2 class="section-title">Now Challenging</h2>
+                <div class="section-sub">いま、熱狂していること</div>
+            </div>
+
+            <div class="now-challenging">
+                <div class="hero-grid">
+                    <div class="hero-img-wrap logo">
+                        <img class="logo-img" src="assets/challengers-logo.png" alt="チャレンジャーズ ロゴ">
+                    </div>
+                    <div class="hero-content">
+                        <h3>「チャレンジャーズ」<br>コミュニティ運営強化</h3>
+                        <p>メンバー全員が主役になれる場所へ。今月は新しいイベント形式を実験中です！みんなで「一歩」を踏み出す空気をデザインしています。</p>
+                        <a href="https://lit.link/challengerscommunity" target="_blank" class="btn-link">コミュニティを覗く →</a>
+                    </div>
+                </div>
+                <div class="hero-grid">
+                    <div class="hero-img-wrap banner">
+                        <img src="assets/mirais-hero.png" alt="MIRAIS">
+                    </div>
+                    <div class="hero-content">
+                        <h3>「MIRAIS」<br>コミュニティ文化形成</h3>
+                        <p>副代表として、“GIVEが循環するコミュニティの未来づくり”に挑戦中。立ち止まった人が、また前を向ける空気と仕組みをデザインしています。</p>
+                        <a href="https://www.ikukyu-mirais.com/" target="_blank" rel="noopener" class="btn-link">MIRAISについて →</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="grid-wrapper">
+                <div class="item-card">
+                    <div class="item-img">
+                        <span class="category-tag">PROJECT</span>
+                        <img src="assets/log-house.jpg" alt="ログハウス">
+                    </div>
+                    <div class="item-body">
+                        <h3 class="item-title">海の見えるログハウス</h3>
+                        <p class="item-text">2029年までに海の見えるログハウスで、ソファに寝転びパソコンを叩きながら「自由だ！」と叫ぶ生活を実現する。</p>
+                    </div>
+                </div>
+                <div class="item-card">
+                    <div class="item-img">
+                        <span class="category-tag">PRODUCT</span>
+                        <img src="assets/sawarutech.png" alt="さわるTECH">
+                    </div>
+                    <div class="item-body">
+                        <h3 class="item-title">さわるTECH（新感覚サブスク玩具サービス）</h3>
+                        <p class="item-text">日本e-Learning大賞 & AES Global Award ダブル最優秀賞受賞！もっと多くの子どもたちに“触れる学びの面白さ”を届けるため、認知拡大に挑戦中。</p>
+                    </div>
+                </div>
+                <div class="item-card">
+                    <div class="item-img">
+                        <span class="category-tag">COMMUNITY</span>
+                        <img src="assets/cnp.png" alt="CNP">
+                    </div>
+                    <div class="item-body">
+                        <h3 class="item-title">「CNP（クリプトニンジャパートナーズ）」</h3>
+                        <p class="item-text">CNPの世界観とコミュニティの力を、もっと多くの人へ。“機会・役割・仲間を自分でつくれる”文化を広げるための発信と企画に挑戦中。</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <hr style="border: 0; border-top: 1px dashed #ddd; margin: 60px 0;">
+
+        <section>
+            <div class="section-header">
+                <h2 class="section-title">My Sources</h2>
+                <div class="section-sub">私を作る、ヒト・モノ・コト</div>
+            </div>
+
+            <div class="grid-wrapper">
+                
+                <div class="item-card">
+                    <div class="item-img">
+                        <span class="category-tag">BOOK</span>
+                        <div class="img-placeholder">BOOK</div>
+                    </div>
+                    <div class="item-body">
+                        <h3 class="item-title">本（学びのタネ）</h3>
+                        <p class="item-text">物語・思想・ビジネス書。“未来のヒント”をくれる言葉たち。その時の心の状態で、届き方が変わるのが好き。</p>
+                    </div>
+                </div>
+
+                <div class="item-card">
+                    <div class="item-img">
+                        <span class="category-tag">OSHI</span>
+                        <div class="img-placeholder">OSHI</div>
+                    </div>
+                    <div class="item-body">
+                        <h3 class="item-title">推し（心のビタミン）</h3>
+                        <p class="item-text">CNP、キャラクター、コミュニティの仲間たち。“好き”が背中を押してくれる瞬間こそ、挑戦のエネルギー。</p>
+                    </div>
+                </div>
+
+                <div class="item-card">
+                    <div class="item-img">
+                        <span class="category-tag">INSPIRATION</span>
+                        <div class="img-placeholder">INSPIRATION</div>
+                    </div>
+                    <div class="item-body">
+                        <h3 class="item-title">インスピレーション（ひらめきの風）</h3>
+                        <p class="item-text">人との対話、旅、自然、アート、食べもの。心が動いた瞬間を大切にして、次の挑戦の種に変えていく。</p>
+                    </div>
+                </div>
+
+                <div class="item-card">
+                    <div class="item-img">
+                        <span class="category-tag">WORDS</span>
+                        <div class="img-placeholder">WORDS</div>
+                    </div>
+                    <div class="item-body">
+                        <h3 class="item-title">ことば（整える時間）</h3>
+                        <p class="item-text">語る・聴く・書く。ことばを通して、自分の感情や思考を整理する習慣。“伝える”は私のライフワーク。</p>
+                    </div>
+                </div>
+
+                <div class="item-card promo-card">
+                    <div class="item-img">
+                        <span class="category-tag" style="background:#2C7A66; color:#fff;">CREATE</span>
+                        <div class="img-placeholder">CREATE</div>
+                    </div>
+                    <div class="item-body">
+                        <h3 class="item-title">つくること（創造の原点）</h3>
+                        <p class="item-text">お菓子・コミュニティ・企画・世界観づくり。“ゼロから何かが生まれる瞬間”が、いつでも心を動かしてくれる。</p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <div class="cta-block">
+            <div>
+                <h3>一緒に小さなチャレンジをしませんか？</h3>
+                <p>コミュニティ参加やコラボの相談、日々のメモ配信の希望などお気軽にどうぞ。各種SNSのDMでも承っています！</p>
+            </div>
+            <div class="cta-actions">
+                <a class="cta-btn primary" href="https://forms.gle/dqGjj4TKeCGEGVVH9" target="_blank" rel="noopener">お問い合わせはこちら</a>
+                <a class="cta-btn" href="#top">チャレンジ一覧へ戻る</a>
+            </div>
+        </div>
+
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="footer-nav">
+                <a href="https://nao70chliholic.github.io/myprofile_nao70/" target="_blank" rel="noopener">Profile</a>
+                <a href="https://x.com/nao70chiliholic" target="_blank" rel="noopener">Twitter</a>
+                <a href="https://www.instagram.com/nao70happyvirus/" target="_blank" rel="noopener">Instagram</a>
+            </div>
+            <p>&copy; Naonao All Rights Reserved.</p>
+        </div>
+    </footer>
+
+</body>
+</html>
